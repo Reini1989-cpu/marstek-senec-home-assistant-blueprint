@@ -1,0 +1,19 @@
+# Beispiel-Scripts für den Blueprint.
+# Entity-IDs an die eigene Home-Assistant-Installation anpassen.
+
+script:
+  marstek_auto_modus:
+    alias: Marstek auf AUTO setzen
+    mode: single
+    sequence:
+      - service: button.press
+        target:
+          entity_id: button.marstek_auto_mode
+
+  marstek_manual_modus:
+    alias: Marstek auf MANUAL setzen
+    mode: single
+    sequence:
+      - service: button.press
+        target:
+          entity_id: button.marstek_manual_mode

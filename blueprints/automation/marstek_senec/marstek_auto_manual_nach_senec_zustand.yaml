@@ -1,0 +1,137 @@
+blueprint:
+  name: Marstek Auto/Manual nach SENEC-Zustand
+  description: >
+    Schaltet einen Marstek-Speicher abhängig vom Ladezustand und der
+    Ladeleistung eines SENEC-Speichers zwischen AUTO und MANUAL um.
+
+    AUTO wird aktiviert, wenn mindestens eine Bedingung erfüllt ist:
+      - SENEC Ladeleistung liegt über dem konfigurierten Schwellenwert.
+      - SENEC SOC ist voll.
+      - SENEC SOC liegt unter dem Leer-Schwellenwert.
+
+    MANUAL wird aktiviert, wenn keine AUTO-Bedingung erfüllt ist.
+
+    Sicherheitsverhalten:
+      - Bei unbekannten oder nicht verfügbaren Sensorwerten erfolgt keine Umschaltung.
+      - Der aktuelle Marstek-Modus wird vor dem Schalten geprüft, damit Scripts
+        nicht unnötig jede Minute erneut ausgelöst werden.
+  domain: automation
+  author: Reini
+  input:
+    senec_charge_power_entity:
+      name: SENEC Ladeleistung
+      description: Sensor für die aktuelle Ladeleistung des SENEC-Speichers in Watt.
+      selector:
+        entity:
+          domain: sensor
+
+    senec_soc_entity:
+      name: SENEC Ladezustand (SOC)
+      description: Sensor für den Ladezustand des SENEC-Speichers in Prozent.
+      selector:
+        entity:
+          domain: sensor
+
+    marstek_mode_entity:
+      name: Marstek Modus-Sensor
+      description: Sensor, dessen Zustand Auto oder Manual entspricht.
+      selector:
+        entity:
+          domain: sensor
+
+    marstek_auto_script:
+      name: Script für AUTO-Modus
+      description: Script, das den Marstek-Speicher in den AUTO-Modus setzt.
+      selector:
+        entity:
+          domain: script
+
+    marstek_manual_script:
+      name: Script für MANUAL-Modus
+      description: Script, das den Marstek-Speicher in den MANUAL-Modus setzt.
+      selector:
+        entity:
+          domain: script
+
+    charge_threshold:
+      name: Ladeleistungs-Schwellenwert für AUTO
+      description: Oberhalb dieses Werts wird AUTO aktiviert.
+      default: 2300
+      selector:
+        number:
+          min: 0
+          max: 5000
+          step: 10
+          unit_of_measurement: W
+          mode: box
+
+    soc_empty_threshold:
+      name: SOC-Schwellenwert für leeren SENEC
+      description: Unterhalb dieses Werts wird AUTO aktiviert.
+      default: 5
+      selector:
+        number:
+          min: 0
+          max: 30
+          step: 1
+          unit_of_measurement: "%"
+          mode: box
+
+    soc_full_threshold:
+      name: SOC-Schwellenwert für vollen SENEC
+      description: Ab diesem Wert wird AUTO aktiviert.
+      default: 100
+      selector:
+        number:
+          min: 70
+          max: 100
+          step: 1
+          unit_of_measurement: "%"
+          mode: box
+
+trigger:
+  - platform: time_pattern
+    minutes: "/1"
+
+mode: single
+max_exceeded: silent
+
+action:
+  - variables:
+      charge_entity: !input senec_charge_power_entity
+      soc_entity: !input senec_soc_entity
+      mode_entity: !input marstek_mode_entity
+      threshold: !input charge_threshold
+      empty_threshold: !input soc_empty_threshold
+      full_threshold: !input soc_full_threshold
+
+      charge_raw: "{{ states(charge_entity) }}"
+      soc_raw: "{{ states(soc_entity) }}"
+      mode_raw: "{{ states(mode_entity) | lower }}"
+
+      sensors_available: >-
+        {{ states(charge_entity) not in ['unknown', 'unavailable', 'none', '']
+           and states(soc_entity) not in ['unknown', 'unavailable', 'none', '']
+           and states(mode_entity) not in ['unknown', 'unavailable', 'none', ''] }}
+
+      should_auto: >-
+        {{ (states(charge_entity) | float(0)) > (threshold | float(0))
+           or (states(soc_entity) | float(0)) >= (full_threshold | float(100))
+           or (states(soc_entity) | float(0)) < (empty_threshold | float(5)) }}
+
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ sensors_available and should_auto and mode_raw != 'auto' }}"
+        sequence:
+          - service: script.turn_on
+            target:
+              entity_id: !input marstek_auto_script
+
+      - conditions:
+          - condition: template
+            value_template: "{{ sensors_available and (not should_auto) and mode_raw != 'manual' }}"
+        sequence:
+          - service: script.turn_on
+            target:
+              entity_id: !input marstek_manual_script
