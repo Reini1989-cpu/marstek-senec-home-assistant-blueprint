@@ -1,3 +1,13 @@
+<p align="center">
+  <img src="assets/icon.png" width="160" alt="Marstek SENEC Integration Icon">
+</p>
+
+# Marstek SENEC Home Assistant Integration
+
+<p align="center">
+  <img src="assets/banner.png" alt="Marstek SENEC Home Assistant Integration">
+</p>
+
 # Marstek SENEC Controller – Home Assistant Custom Integration
 
 Diese Custom Integration schaltet einen Marstek-Speicher automatisch zwischen **AUTO** und **MANUAL**, abhängig von Ladeleistung und SOC eines SENEC-Speichers oder eines anderen Referenzspeichers.
