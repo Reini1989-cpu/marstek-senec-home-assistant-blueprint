@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/icon.png" width="160" alt="Marstek SENEC Integration Icon">
-</p>
-
 # Marstek SENEC Home Assistant Integration
 
 <p align="center">
