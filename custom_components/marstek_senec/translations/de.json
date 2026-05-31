@@ -1,0 +1,40 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Marstek SENEC Controller",
+        "description": "Wähle die Sensoren des Referenzspeichers und die Marstek-Scripts für AUTO/MANUAL.",
+        "data": {
+          "power_sensor": "Ladeleistung Referenzspeicher in W",
+          "soc_sensor": "SOC Referenzspeicher in %",
+          "mode_sensor": "Aktueller Marstek-Modus-Sensor",
+          "auto_script": "Script für Marstek AUTO",
+          "manual_script": "Script für Marstek MANUAL",
+          "charge_threshold": "AUTO ab Ladeleistung über",
+          "soc_empty_threshold": "AUTO bei SOC unter",
+          "soc_full_threshold": "AUTO bei SOC ab",
+          "check_interval": "Prüfintervall"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Optionen Marstek SENEC Controller",
+        "description": "Sensoren, Scripts und Schwellenwerte ändern.",
+        "data": {
+          "power_sensor": "Ladeleistung Referenzspeicher in W",
+          "soc_sensor": "SOC Referenzspeicher in %",
+          "mode_sensor": "Aktueller Marstek-Modus-Sensor",
+          "auto_script": "Script für Marstek AUTO",
+          "manual_script": "Script für Marstek MANUAL",
+          "charge_threshold": "AUTO ab Ladeleistung über",
+          "soc_empty_threshold": "AUTO bei SOC unter",
+          "soc_full_threshold": "AUTO bei SOC ab",
+          "check_interval": "Prüfintervall"
+        }
+      }
+    }
+  }
+}

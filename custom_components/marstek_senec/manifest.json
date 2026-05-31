@@ -1,0 +1,12 @@
+{
+  "domain": "marstek_senec",
+  "name": "Marstek SENEC Controller",
+  "codeowners": ["@Reini1989-cpu"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/Reini1989-cpu/marstek-senec-home-assistant-blueprint",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/Reini1989-cpu/marstek-senec-home-assistant-blueprint/issues",
+  "quality_scale": "bronze",
+  "version": "1.0.0"
+}

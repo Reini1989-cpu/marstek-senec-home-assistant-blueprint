@@ -1,0 +1,40 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Marstek SENEC Controller",
+        "description": "Select the reference battery sensors and the Marstek AUTO/MANUAL scripts.",
+        "data": {
+          "power_sensor": "Reference battery charging power sensor (W)",
+          "soc_sensor": "Reference battery SOC sensor (%)",
+          "mode_sensor": "Marstek current mode sensor",
+          "auto_script": "Script to switch Marstek to AUTO",
+          "manual_script": "Script to switch Marstek to MANUAL",
+          "charge_threshold": "AUTO when charging power is above",
+          "soc_empty_threshold": "AUTO when SOC is below",
+          "soc_full_threshold": "AUTO when SOC is at or above",
+          "check_interval": "Check interval"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Marstek SENEC Controller options",
+        "description": "Change sensors, scripts and thresholds.",
+        "data": {
+          "power_sensor": "Reference battery charging power sensor (W)",
+          "soc_sensor": "Reference battery SOC sensor (%)",
+          "mode_sensor": "Marstek current mode sensor",
+          "auto_script": "Script to switch Marstek to AUTO",
+          "manual_script": "Script to switch Marstek to MANUAL",
+          "charge_threshold": "AUTO when charging power is above",
+          "soc_empty_threshold": "AUTO when SOC is below",
+          "soc_full_threshold": "AUTO when SOC is at or above",
+          "check_interval": "Check interval"
+        }
+      }
+    }
+  }
+}

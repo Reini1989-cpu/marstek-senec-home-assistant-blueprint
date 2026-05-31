@@ -1,0 +1,7 @@
+{
+  "name": "Marstek SENEC Controller",
+  "render_readme": true,
+  "domains": ["automation", "script", "sensor"],
+  "homeassistant": "2025.1.0",
+  "country": ["DE"]
+}
